@@ -8,8 +8,8 @@
 
 		<h2>Persona</h2>
 
-		<p>	Cleatus is a 42 year old male who has visited the Albuquerque alrea during Baloon Fiesta for
-		10 years running. He is an avid promoter his favorite balloon gathering but has limited tallent and abilities on
+		<p>	Cleatus is a 42 year old male who has visited the Albuquerque area during Balloon Fiesta for
+		10 years running. He is an avid promoter his favorite balloon gathering but has limited talent and abilities on
 		his Gateway2000. </p>
 
 		<h2>User Story</h2>
@@ -18,7 +18,7 @@
 
 		<h2>Use Case/ Interaction Flow</h2>
 
-		<P><storng>Story:</storng> As a registered user Cleatus would like to comment on the post.</P>
+		<P><strong>Story:</strong> As a registered user Cleatus would like to comment on the post.</P>
 
 		<ol>
 			<li>Cleatus clicks comment.</li>
