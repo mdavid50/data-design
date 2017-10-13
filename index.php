@@ -13,11 +13,9 @@
 		his Gateway2000. </p>
 
 		<h2>User Story</h2>
-
 		<p> Cleatus is a registered user to the sight and would like to comment on the post.</p>
 
 		<h2>Use Case/ Interaction Flow</h2>
-
 		<P><strong>Story:</strong> As a registered user Cleatus would like to comment on the post.</P>
 
 		<ol>
@@ -31,11 +29,27 @@
 		</ol>
 
 		<h2>Conceptual Model</h2>
+			<h3>Profile</h3>
+		<ul>
+			<li>postfieldId (primary key)</li>
+			<li>postTitle</li>
+			<li>postDate</li>
+			<li>postProfile</li>
+			<li>postContent</li>
+			<li>postCommentsCount</li>
+		</ul>
 
+			<h3>Comment</h3>
+		<ul>
+			<li>commentId</li>
+			<li>commentProfileId</li>
+			<li>commentDate</li>
+		</ul>
+		<h2>Relation</h2>
 		<ul>
 			<li>One user can have many posts</li>
 			<li>Many posts can have many comments</li>
-			<li>Many comments can have many users</li>
+			<li>Many users can have many comments</li>
 		</ul>
 	</body>
 </html>
