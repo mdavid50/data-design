@@ -4,7 +4,7 @@
 		<meta charset="utf-8"/>
 	</head>
 	<body>
-		<h1></h1>
+		<h1>Data Design Project</h1>
 
 		<h2>Persona</h2>
 
@@ -31,5 +31,11 @@
 		</ol>
 
 		<h2>Conceptual Model</h2>
+
+		<ul>
+			<li>One user can have many posts</li>
+			<li>Many posts can have many comments</li>
+			<li>Many comments can have many users</li>
+		</ul>
 	</body>
 </html>
