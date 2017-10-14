@@ -29,10 +29,6 @@
 		<p><strong>User Story:</strong> As a user Cleatus needs needs simple and easily accessible functions so he
 		can comment as quickly as his computer will allow and a time stamp to know he was first to respond.</p>
 
-		<p>	Cleatus is a 42 year old male who has visited the Albuquerque area during Balloon Fiesta for
-		10 years running. He is an avid promoter his favorite balloon gathering but has limited talent and abilities on
-		his Gateway2000. </p>
-
 		<h2>User Story</h2>
 		<p> Cleatus is a registered user to the sight and would like to comment on the post.</p>
 
