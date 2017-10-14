@@ -21,7 +21,13 @@
 			anyone working behind a counter. He is the classic "one upper" when it comes to story telling and
 		knowing the latest and greatest in technology even though he cant afford any of it.</p>
 
-		<p><strong>Frustrations and Needs:</strong> </p>
+		<p><strong>Frustrations and Needs:</strong> Cleatus must be the first to comment on anything. Since his
+		trusty Gateway is so so slow he needs all functions on a site to be simple and accessible.</p>
+
+		<p><strong>Goal:</strong> To chime in on anything Cellular related.</p>
+
+		<p><strong>User Story:</strong> As a user Cleatus needs needs simple and easily accessible functions so he
+		can comment as quickly as his computer will allow and a time stamp to know he was first to respond.</p>
 
 		<p>	Cleatus is a 42 year old male who has visited the Albuquerque area during Balloon Fiesta for
 		10 years running. He is an avid promoter his favorite balloon gathering but has limited talent and abilities on
