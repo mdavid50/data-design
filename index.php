@@ -8,6 +8,21 @@
 
 		<h2>Persona</h2>
 
+		<p><strong>Name:</strong> Cleatus</p>
+
+		<p><strong>Age:</strong> 42</p>
+
+		<p><strong>Profession:</strong> Cellular Technician</p>
+
+		<p><strong>Technologies:</strong> Gateway 2000 desktop and Motorola "push to talk"</p>
+
+		<p><strong>Attitude and Behaviors:</strong> Cleatus is a boisterous and friendly fellow that enjoys finding
+		a reason to strike up a conversation with someone that cant leave like a gas station, bartender attendant or
+			anyone working behind a counter. He is the classic "one upper" when it comes to story telling and
+		knowing the latest and greatest in technology even though he cant afford any of it.</p>
+
+		<p><strong>Frustrations and Needs:</strong> </p>
+
 		<p>	Cleatus is a 42 year old male who has visited the Albuquerque area during Balloon Fiesta for
 		10 years running. He is an avid promoter his favorite balloon gathering but has limited talent and abilities on
 		his Gateway2000. </p>
