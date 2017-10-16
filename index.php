@@ -78,8 +78,7 @@
 		<h2>Relation</h2>
 		<ul>
 			<li>One user can have many posts (1 to n)</li>
-			<li>Many users can have many comments</li>
-			<li>Many users can have many comments</li>
+			<li>One post can have many comments (1 to n)</li>
 		</ul>
 	</body>
 </html>
