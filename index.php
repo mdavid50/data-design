@@ -52,28 +52,31 @@
 		<h2>Conceptual Model</h2>
 			<h3>Profile</h3>
 		<ul>
-			<li>postfieldId (primary key)</li>
-			<li>postTitle</li>
-			<li>postDate</li>
-			<li>postProfile</li>
-			<li>postContent</li>
-			<li>postComments</li>
+			<li>profileId (primary key)</li>
+			<li>profileHandle</li>
+			<li>profielEmail</li>
+			<li>profilePhone</li>
+			<li>profileHash</li>
+			<li>profileSalt</li>
 		</ul>
 
 			<h3>Post</h3>
 			<ul>
 				<li>postId (primary key)</li>
-				<li>postpofileId (foreign key)</li>
+				<li>postProfileId (foreign key)</li>
+				<li>postTitle</li>
 				<li>postContent</li>
-				<li>postdate</li>
+				<li>postDate</li>
 			</ul>
 
 			<h3>Comment</h3>
 		<ul>
 			<li>commentId (primary)</li>
-			<li>commentpostId(foreign)</li>
-			<li>commentProfileId</li>
+			<li>commentPostId(foreign)</li>
+			<li>commentProfileId (foreign)</li>
 			<li>commentDate</li>
+			<li>commentContent</li>
+			<li>commentCommentId</li>
 		</ul>
 		<h2>Relation</h2>
 		<ul>
