@@ -82,6 +82,7 @@
 		<ul>
 			<li>One user can have many posts (1 to n)</li>
 			<li>One post can have many comments (1 to n)</li>
+			<li>One user can have many comments (1 to n)</li>
 		</ul>
 	</body>
 </html>
