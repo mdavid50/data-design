@@ -17,7 +17,8 @@
 
 		<p><strong>Profession:</strong> Cellular Technician</p>
 
-		<p><strong>Technologies:</strong> Gateway 2000 desktop and Motorola "push to talk"</p>
+		<p><strong>Technologies:</strong> Gateway 2000 desktop and managed to get Windows 10 to run and Motorola
+			"push to talk"</p>
 
 		<p><strong>Attitude and Behaviors:</strong> Cleatus is a boisterous and friendly fellow that enjoys finding
 		a reason to strike up a conversation with someone that cant leave like a gas station, bartender attendant or
