@@ -57,19 +57,28 @@
 			<li>postDate</li>
 			<li>postProfile</li>
 			<li>postContent</li>
-			<li>postCommentsCount</li>
+			<li>postComments</li>
 		</ul>
+
+			<h3>Post</h3>
+			<ul>
+				<li>postId (primary key)</li>
+				<li>postpofileId (foreign key)</li>
+				<li>postContent</li>
+				<li>postdate</li>
+			</ul>
 
 			<h3>Comment</h3>
 		<ul>
 			<li>commentId</li>
+			<li>commentpostId</li>
 			<li>commentProfileId</li>
 			<li>commentDate</li>
 		</ul>
 		<h2>Relation</h2>
 		<ul>
-			<li>One user can have many posts</li>
-			<li>Many posts can have many comments</li>
+			<li>One user can have many posts (1 to n)</li>
+			<li>Many users can have many comments</li>
 			<li>Many users can have many comments</li>
 		</ul>
 	</body>
