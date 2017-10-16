@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
+		<title></title>
 	</head>
 	<body>
 		<h1>Data Design Project</h1>
@@ -39,7 +40,7 @@
 			<li>Cleatus clicks comment.</li>
 			<li>The sight loads the post, all previous comments, and a comment input field.</li>
 			<li>Cleatus clicks on the input field</li>
-			<li>The sight displays a coursor  in the text input field</li>
+			<li>The sight displays a courser  in the text input field</li>
 			<li>Cleatus types his comment and presses submit button</li>
 			<li>The sight reloads to display original post, all previous comments including Cleatus's, and a
 			clear comment input field.</li>
