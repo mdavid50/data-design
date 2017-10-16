@@ -76,7 +76,7 @@
 			<li>commentProfileId (foreign)</li>
 			<li>commentDate</li>
 			<li>commentContent</li>
-			<li>commentCommentId</li>
+			<li>commentCommentId (foreign)</li>
 		</ul>
 		<h2>Relation</h2>
 		<ul>
