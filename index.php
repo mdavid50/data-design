@@ -70,8 +70,8 @@
 
 			<h3>Comment</h3>
 		<ul>
-			<li>commentId</li>
-			<li>commentpostId</li>
+			<li>commentId (primary)</li>
+			<li>commentpostId(foreign)</li>
 			<li>commentProfileId</li>
 			<li>commentDate</li>
 		</ul>
