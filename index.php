@@ -6,6 +6,8 @@
 	</head>
 	<body>
 		<h1>Data Design Project</h1>
+		
+		<img src="images/cleatus.jpg">
 
 		<h2>Persona</h2>
 
