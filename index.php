@@ -84,5 +84,7 @@
 			<li>One post can have many comments (1 to n)</li>
 			<li>One user can have many comments (1 to n)</li>
 		</ul>
+
+		<img src="images/erd.jpg" alt="erd model">
 	</body>
 </html>
