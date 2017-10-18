@@ -14,53 +14,56 @@ CREATE TABLE post (
 	postDate DATETIME (6)
 );
 
-CREATE TABLE comment (
-	commentId BINARY (16)
-	commentPostId BINARY (16)
-	commentProfileId BINARY (16)
-	commentTitle VARCHAR (128)
-	commentContent VARCHAR (65536)
-	commentDate DATETIME (6)
-	commentCommentId (16)
+create table comment (
+	commentid binary (16)
+	commentpostid binary (16)
+	commentprofileid binary (16)
+	commenttitle varchar (128)
+	commentcontent varchar (65536)
+	commentdate datetime (6)
+	commentcommentid (16)
 )
 
-	INSERT INTO profile (profileId)
-	VALUES(
-	UNHEL(REPLACE("dc12ace9-3796-4902-931c-722e4f19bfd2"))
 
-	DELETE FROM profile WHERE profileHandle;
-	WHERE profileHandle Like%dolphins%;
+	statement
 
-	UPDATE profilePhone
-	SET profilePhone = "+5058883323"
-	WHERE profileId = "dc12ace9-3796-4902-931c-722e4f19bfd2"
+	insert into profile (profileid)
+	values(
+	unhel(replace("dc12ace9-3796-4902-931c-722e4f19bfd2"))
 
-	SELECT profileEmail
-	FROM profile
-	WHERE profileEmail Like "%@cnm%"
+	delete from profile where profilehandle;
+	where profilehandle like%dolphins%;
 
+	update profilephone
+	set profilephone = "+5058883323"
+	where profileid = "dc12ace9-3796-4902-931c-722e4f19bfd2"
 
-	INSERT INTO post (postTitle)
-	VALUES("The great Bambino")
-
-	DELETE FROM post WHERE postContent LIKE "%mastermind%"
-
-	UPDATE postDate
-	Set postDate = "today"
-
-	SELECT postTitle
-	FROM post
-	WHERE profileHandle like "superheron"
+	select profileemail
+	from profile
+	where profileemail like "%@cnm%"
 
 
-	INSERT INTO comment (commentContent)
-	VALUES("I wanna rock")
+	insert into post (posttitle)
+	values("the great bambino")
 
-	DELETE FROM comment WHERE commentDate < 06/01/2017
+	delete from post where postcontent like "%mastermind%"
 
-	UPDATE commentTitle
-	SET commentTitle = "where code will take us"
+	update postdate
+	set postdate = "today"
 
-	SELECT commentId
-	FROM comment
-	WHEN commentContent LIKE "danceclub"
+	select posttitle
+	from post
+	where profilehandle like "superheron"
+
+
+	insert into comment (commentcontent)
+	values("i wanna rock")
+
+	delete from comment where commentdate < 06/01/2017
+
+	update commenttitle
+	set commenttitle = "where code will take us"
+
+	select commentid
+	from comment
+	when commentcontent like "danceclub"
