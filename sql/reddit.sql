@@ -1,26 +1,26 @@
 CREATE TABLE profile (
-	profileId BINARY(16)
-	profileHandle VARCHAR (32)
-	profielEmail VARCHAR (128)
+	profileId BINARY(16) NOT NULL
+	profileHandle VARCHAR (32) NOT NULL
+	profielEmail VARCHAR (128) NOT NULL
 	profilePhone VARCHAR (32)
-	profileHash CHAR (128)
-	profileSalt CHAR (64)
+	profileHash CHAR (128) NOT NULL
+	profileSalt CHAR (64) NOT NULL
 );
 CREATE TABLE post (
-	postId BINARY(16)
-	postProfileId BINARY (16)
-	postTitle VARCHAR (140)
-	postContent VARCHAR (65536)
-	postDate DATETIME (6)
+	postId BINARY(16) NOT NULL
+	postProfileId BINARY (16) NOT NULL
+	postTitle VARCHAR (140) NOT NULL
+	postContent VARCHAR (65536) NOT NULL
+	postDate DATETIME (6) NOT NULL
 );
 
 create table comment (
-	commentid binary (16)
-	commentpostid binary (16)
-	commentprofileid binary (16)
-	commenttitle varchar (128)
-	commentcontent varchar (65536)
-	commentdate datetime (6)
+	commentid binary (16) NOT NULL
+	commentpostid binary (16) NOT NULL
+	commentprofileid binary (16) NOT NULL
+	commenttitle varchar (128) NOT NULL
+	commentcontent varchar (65536) NOT NULL
+	commentdate datetime (6) NOT NULL
 	commentcommentid (16)
 )
 
