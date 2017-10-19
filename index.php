@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
-		<title></title>
+		<title>Matt David Data Design</title>
 	</head>
 	<body>
 		<h1>Data Design Project</h1>
