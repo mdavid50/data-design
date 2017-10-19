@@ -73,7 +73,7 @@
 		<ul>
 			<li>commentId (primary)</li>
 			<li>commentPostId(foreign)</li>
-			<li>commentProfileId (foreign)</li>
+			<l>commentProfileId (foreign)</l>
 			<li>commentDate</li>
 			<li>commentContent</li>
 			<li>commentCommentId (foreign)</li>
