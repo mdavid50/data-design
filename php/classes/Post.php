@@ -122,7 +122,7 @@ public function setPostProfileId($newPostProfileId) : void {
         $exceptionType = get_class($exception);
     throw(new $exceptionType($exception->getMessage(), 0, $exception));
 }
-.
+
 // convert and store the profile id
 $this->postProfileId = $uuid;
 }
@@ -231,7 +231,7 @@ public function update(\PDO $pdo) : void {
  * get the Post by postId
  *
  * @param \PDO $pdo PDO connection object
- * @param string #postId post id to search for
+ * @param string $postId post id to search for
  * @return Post|null Post found or null if not found
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when a variable are not the correct data type
@@ -249,7 +249,7 @@ public static function getPostByPostId(\PDO $pdo, string $postId) : ?Post {
     $statement = $pdo->prepare($query);
 
     // bind the post id to the place holder in the template
-    $parameters = ["postId" => $postId->getBytes()]:
+    $parameters = ["postId" => $postId->getBytes()];
     $statement->execute($parameters);
 
     // grab the post from mySQL

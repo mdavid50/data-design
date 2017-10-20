@@ -9,9 +9,9 @@ CREATE TABLE profile (
   profilePhone VARCHAR (32),
   profileHash CHAR (128) NOT NULL,
   profileSalt CHAR (64) NOT NULL,
-  PRIMARY KEY (profileId),
   UNIQUE (profileHandle),
-  UNIQUE (profileEmail)
+  UNIQUE (profileEmail),
+  PRIMARY KEY (profileId),
 );
 
 CREATE TABLE post (
@@ -20,8 +20,9 @@ CREATE TABLE post (
   postTitle VARCHAR (140) NOT NULL,
   postContent VARCHAR (3000) NOT NULL,
   postDate DATETIME (6) NOT NULL,
-  PRIMARY KEY (postId),
-  FOREIGN KEY (postProfileId)
+  INDEX (postProfileId),
+  FOREIGN KEY (postProfileId) REFERENCES profile(profileId),
+  PRIMARY KEY (postId)
 );
 
 CREATE TABLE comments (
@@ -36,7 +37,7 @@ CREATE TABLE comments (
   INDEX (commentsProfileId),
   FOREIGN KEY (commentsPostId) REFERENCES post(postId),
   FOREIGN KEY (commentsProfileId) REFERENCES profile(profileId),
-  PRIMARY KEY (commentsId),
+  PRIMARY KEY (commentsId)
 );
 
 INSERT INTO profile (profileId, profileHandle, profileEmail, profilePhone, profileHash, profileSalt)
