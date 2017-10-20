@@ -10,7 +10,7 @@ CREATE TABLE post (
 	postId BINARY(16) NOT NULL
 	postProfileId BINARY (16) NOT NULL
 	postTitle VARCHAR (140) NOT NULL
-	postContent VARCHAR (65536) NOT NULL
+	postContent VARCHAR (60000) NOT NULL
 	postDate DATETIME (6) NOT NULL
 );
 
@@ -19,7 +19,7 @@ create table comment (
 	commentpostid binary (16) NOT NULL
 	commentprofileid binary (16) NOT NULL
 	commenttitle varchar (128) NOT NULL
-	commentcontent varchar (65536) NOT NULL
+	commentcontent varchar (60000) NOT NULL
 	commentdate datetime (6) NOT NULL
 	commentcommentid (16)
 )

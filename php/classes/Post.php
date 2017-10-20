@@ -118,7 +118,7 @@ public function setPostProfileId(
     $newPostProfileId) : void {
     try {
         $uuid = self::validateUuid($newPostProfileId);
-    } catch(\InvalidArgumentException |\RangeException |\Exception |\ TypeError $e)
+    } catch(\InvalidArgumentException |\RangeException |\Exception |\ TypeError $exception){
         $exceptionType = get_class($exception);
     throw(new $exceptionType($exception->getMessage(), 0, $exception));
 }
@@ -199,9 +199,12 @@ public function setPostDate($newPostDate = null) : void {
 public function insert(\PDO $pdo) : void {
 
     // create query template
-    $query = $this->postDate->format("Y-m-d H:i:s.u");
-    $parameters = ["postID" => $this->postDate->getBytes(), "postProfileID" => $this->postProfileId->getBytes(), "postContent"=> $this->postContent, "postDate" => $formattedDate];
-    $statment->execure($parameters);
+    $query = "INSERT INTO post(postId,postProfielId, )"
+
+    // bind the memeber variables to the place holder in the template
+    $formattedDate = $this->postDate->format("Y-m-d H:i:s.u");
+    $parameters = ["postId" => $this->postId->getBytes(), "postProfileId" => $this->postProfileId->getBytes(), "postContent"=> $this->postContent, "postDate" => $formattedDate];
+    $statement->execure($parameters);
 }
 
 /**
@@ -242,5 +245,40 @@ public static function getPostByPostId(\PDO $pdo, string $postId) : ?Post {
 
     // create query template
     $query = "SELECT postId, postsProfileId, postContent, postDate FROM post WHERE postId = :postId";
-    $statement
+    $statement = $pdo->prepare($query);
+
+    // bind the post id to the place holder in the template
+    $parameters = ["postId" => $postId->getBytes()]:
+    $statement->execute($parameters);
+
+    // grab the post from mySQL
+    try {
+        $post= null;
+        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+        $row = $statement->fetch();
+        if($row !== false) {
+            $post=new Post($row["postId"], $row["postProfileId"], $row{"postContent"}, $row["postDate"]);
+        }
+    } catch(\Exception $exception) {
+        // if the row couldn't be converted, rethrow it
+        throw(new \PDOException($exception->getMessage(), 0, $exception));
+    }
+    return($post):
+}
+
+/**
+ * get the Post by profile id
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $postProfileId profile id to search by
+ * @return \SplFixedArray SplFixedArray of posts found
+ * @throws \PDOException wen variables are not the correct date type
+**/
+public static function getPostByPostProfileId(\PDO $pdo, string $postProfileId) : \SplFixedArray {
+
+    try {
+        $postProfileId = self::validateUuid($postProfileId);
+    } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+        throw(new \PDOException())
+    }
 }
