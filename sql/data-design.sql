@@ -18,7 +18,7 @@ CREATE TABLE post (
   postProfileId BINARY (16) NOT NULL,
   postTitle VARCHAR (140) NOT NULL,
   postContent VARCHAR (3000) NOT NULL,
-  postDate DATETIME (6) NOT NULL
+  postDate DATETIME (6) NOT NULL,
   PRIMARY KEY (postId),
   FOREIGN KEY (postProfileId)
 );
