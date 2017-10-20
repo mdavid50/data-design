@@ -27,48 +27,6 @@ create table comment (
 
 
 
-	INSERT INTO post (postContent)
-	VALUE
-
-
-
-	delete from profile where profileHandle;
-	where profileHandle like%dolphins%;
-
-	update profilePhone
-	set profilePhone = "+5058883323"
-	where profileid = "dc12ace9-3796-4902-931c-722e4f19bfd2"
-
-	select profileEmail
-	from profile
-	where profileEmail like "%@cnm%"
-
-
-	insert into post (posttitle)
-	values("the great bambino")
-
-	delete from post where postcontent like "%mastermind%"
-
-	update postdate
-	set postdate = "today"
-
-	select posttitle
-	from post
-	where profilehandle like "superheron"
-
-
-	insert into comment (commentcontent)
-	values("i wanna rock")
-
-	delete from comment where commentdate < 06/01/2017
-
-	update commentTitle
-	set commenttitle = "where code will take us"
-
-	select commentId
-	from comment
-	when commentcontent like "danceclub"
-
 INSERT INTO profile (profileId, profileHandle, profileEmail, profilePhone, profileHash, profileSalt)
 VALUES(
 -- generated UUID for profile id converted to binary
