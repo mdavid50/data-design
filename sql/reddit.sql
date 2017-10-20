@@ -15,24 +15,23 @@ CREATE TABLE post (
 );
 
 create table comment (
-	commentid binary (16) NOT NULL
-	commentpostid binary (16) NOT NULL
-	commentprofileid binary (16) NOT NULL
-	commenttitle varchar (128) NOT NULL
-	commentcontent varchar (60000) NOT NULL
-	commentdate datetime (6) NOT NULL
-	commentcommentid (16)
+	commentsId binary (16) NOT NULL
+	commentsPostid binary (16) NOT NULL
+	commentsProfileId binary (16) NOT NULL
+	commentsTitle varchar (128) NOT NULL
+	commentsContent varchar (60000) NOT NULL
+	commentsDate datetime (6) NOT NULL
+	commentCommentId (16)
 )
 
 
-	statement
+	INSERT INTO profile (profileId, profileHandle, profileEmail, profilePhone, profileHash, profileSalt)
+	VALUES(
+	UNHEX(REPLACE("dc12ace9-3796-4902-931c-722e4f19bfd2","-", "")),
+	"@
 
-	insert into profile (profileid)
-	values(
-	unhel(replace("dc12ace9-3796-4902-931c-722e4f19bfd2"))
-
-	delete from profile where profilehandle;
-	where profilehandle like%dolphins%;
+	delete from profile where profileHandle;
+	where profileHandle like%dolphins%;
 
 	update profilephone
 	set profilephone = "+5058883323"
