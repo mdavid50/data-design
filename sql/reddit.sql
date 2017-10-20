@@ -25,10 +25,12 @@ create table comment (
 )
 
 
-	INSERT INTO profile (profileId, profileHandle, profileEmail, profilePhone, profileHash, profileSalt)
-	VALUES(
-	UNHEX(REPLACE("dc12ace9-3796-4902-931c-722e4f19bfd2","-", "")),
-	"@
+
+
+	INSERT INTO post (postContent)
+	VALUE
+
+
 
 	delete from profile where profileHandle;
 	where profileHandle like%dolphins%;
@@ -60,9 +62,21 @@ create table comment (
 
 	delete from comment where commentdate < 06/01/2017
 
-	update commenttitle
+	update commentTitle
 	set commenttitle = "where code will take us"
 
-	select commentid
+	select commentId
 	from comment
 	when commentcontent like "danceclub"
+
+INSERT INTO profile (profileId, profileHandle, profileEmail, profilePhone, profileHash, profileSalt)
+VALUES(
+-- generated UUID for profile id converted to binary
+UNHEX(REPLACE('dc12ace9-3796-4902-931c-722e4f19bfd2','-', '')),
+-- profile handle chosen by user
+'mdavid',
+-- email
+'mcdavid3636@gmail.com'
+'50599864252','894e65fe9b536b64d7a1940e46ec9cb923fab7f1d63be350b43106851235cb23e798e19a85fee1ecd84e988dbbbf1c59881b003d94f9a23dcfd132fca5ef27bd'
+,'d79d674bb81c24fff3a8af16cb4c6c2b28eec296d4c05745d08e9178e3144f5d2478564'
+);
