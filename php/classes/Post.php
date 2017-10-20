@@ -32,7 +32,7 @@ class Post implements \JsonSerializable {
      * actual textual content of this post
      * @var string $postContent
      **/
-    private $postContent
+    private $postContent;
 	/**
      * date and time this Post was sent, in a php DateTime object
      * @var \DateTime $postDate
@@ -112,10 +112,10 @@ class Post implements \JsonSerializable {
  * mutator method for post profile id
  *
  * @param string \ Uuid $newPostProfileId new value of post profile id
- * @throws \RangeException if $newProfileId is not an integer
+ * @throws \RangeException if $newProfileId is not not positive
+ * @throws \TypeError if $newTweetProfileId is not an integer
  **/
-public function setPostProfileId(
-    $newPostProfileId) : void {
+public function setPostProfileId($newPostProfileId) : void {
     try {
         $uuid = self::validateUuid($newPostProfileId);
     } catch(\InvalidArgumentException |\RangeException |\Exception |\ TypeError $exception){
@@ -128,9 +128,9 @@ $this->postProfileId = $uuid;
 }
 
 /**
- * accessor method for tweet content
+ * accessor method for post content
  *
- * @return string value of tweet content
+ * @return string value of post content
  **/
 public function getPostContent() :string {
     return($this->postContent);
@@ -199,12 +199,13 @@ public function setPostDate($newPostDate = null) : void {
 public function insert(\PDO $pdo) : void {
 
     // create query template
-    $query = "INSERT INTO post(postId,postProfielId, )"
+    $query = "INSERT INTO post(postId,postProfielId, postContent, postDate) VALUES(:postId, :postProfileId, :postContent, :postDate)";
+    $statement = $pdo->prepare($query);
 
-    // bind the memeber variables to the place holder in the template
+    // bind the member variables to the place holder in the template
     $formattedDate = $this->postDate->format("Y-m-d H:i:s.u");
     $parameters = ["postId" => $this->postId->getBytes(), "postProfileId" => $this->postProfileId->getBytes(), "postContent"=> $this->postContent, "postDate" => $formattedDate];
-    $statement->execure($parameters);
+    $statement->execute($parameters);
 }
 
 /**
@@ -263,7 +264,7 @@ public static function getPostByPostId(\PDO $pdo, string $postId) : ?Post {
         // if the row couldn't be converted, rethrow it
         throw(new \PDOException($exception->getMessage(), 0, $exception));
     }
-    return($post):
+    return($post);
 }
 
 /**
