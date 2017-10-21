@@ -307,3 +307,14 @@ class Profile implements \JsonSerializable {
         // store the profile salt
         $this->profileSalt = $newProfileSalt;
     }
+
+    public function jsonSerialize() {
+        $fields = get_object_vars($this);
+        $fields["profileId"] = $this->profileId;
+        $fields["profileUserName"] = $this->profileHandle;
+        $fields["profileActivationToken"] = $this->profileActivationToken;
+        $fields["profileEmail"] = $this->profileEmail;
+        $fields["profileHash"] = $this->profileHash;
+        $fields["profileSalt"] = $this->profileSalt;
+    }
+}
