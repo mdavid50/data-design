@@ -1,6 +1,7 @@
 CREATE TABLE profile (
 	profileId BINARY(16) NOT NULL,
 	profileHandle VARCHAR (32) NOT NULL,
+	profileActivationToken CHAR(32),
 	profileEmail VARCHAR (128) NOT NULL,
 	profilePhone VARCHAR (32),
 	profileHash CHAR (128) NOT NULL,
@@ -8,7 +9,6 @@ CREATE TABLE profile (
 );
 CREATE TABLE post (
 	postId BINARY(16) NOT NULL,
-	psotActivationToken CHAR(32),
 	postProfileId BINARY (16) NOT NULL,
 	postTitle VARCHAR (140) NOT NULL,
 	postContent VARCHAR (3000) NOT NULL,
