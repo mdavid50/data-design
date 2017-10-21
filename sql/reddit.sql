@@ -8,6 +8,7 @@ CREATE TABLE profile (
 );
 CREATE TABLE post (
 	postId BINARY(16) NOT NULL,
+	psotActivationToken CHAR(32),
 	postProfileId BINARY (16) NOT NULL,
 	postTitle VARCHAR (140) NOT NULL,
 	postContent VARCHAR (3000) NOT NULL,

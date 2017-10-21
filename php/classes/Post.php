@@ -2,7 +2,7 @@
 namespace Edu\Cnm\DataDesign;
 
 require_once ("autoloader.php");
-require_once (dirname(__DIR__,2) . "../vendor/autoloader.php");
+require_once (dirname(__DIR__,2) . "../vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
 
@@ -96,7 +96,7 @@ class Post implements \JsonSerializable {
     }
 
     /**
-     *  mutator method for post profile id
+     *  accessor method for post profile id
      *
      * @return Uuid value of tweet profile id
      **/
