@@ -111,7 +111,7 @@ class Post implements \JsonSerializable {
  *
  * @param string \ Uuid $newPostProfileId new value of post profile id
  * @throws \RangeException if $newProfileId is not not positive
- * @throws \TypeError if $newTweetProfileId is not an integer
+ * @throws \TypeError if $newPostProfileId is not an integer
  **/
 public function setPostProfileId($newPostProfileId) : void {
     try {
