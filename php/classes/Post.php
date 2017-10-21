@@ -1,16 +1,15 @@
 <?php
 namespace Edu\Cnm\DataDesign;
 
-require_once ("Post.php");
-require_once (dirname(__DIR__,2) . "/vendor/autoload.php");
+require_once ("autoloader.php");
+require_once (dirname(__DIR__,2) . "../vendor/autoloader.php");
 
 use Ramsey\Uuid\Uuid;
 
 /**
- * Section of Reddit post with comments
+ * This is the Post entity for reddit
  *
- * This is a small example of what data might be stored from a service like Reddit when posts are posted and
- *commented on. This could be added to for a more complete site outlook
+ * This is a creating tables to store date of posts made from by Profiles.
  *
  * @author Matt David <mcdav3636@gmail.com>
  * @version 3.0.0
@@ -86,8 +85,7 @@ class Post implements \JsonSerializable {
      **/
     public function setPostId($newPostId): void{
         try {
-            $uuid = self;;
-            validateUuid($newPostId);
+            $uuid = self::validateUuid($newPostId);
         } catch (\InvalidArgumentException |\RangeException |\Exception |\TypeError $exception) {
             $exceptionType = get_class($exception);
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -147,8 +145,8 @@ public function getPostContent() :string {
 public function setPostContent (string $newPostContent) : void {
     // verify the tweet content is secure
     $newPostContent = trim($newPostContent);
-    $newPostContent = filter_var($newPostContent, Filter_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
-    IF(empty($newPostContent) === true) {
+    $newPostContent = filter_var($newPostContent, FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
+    IF(strlen($newPostContent) === 3000) {
         throw(new \RangeException("posts content too large"));
     }
 
@@ -161,7 +159,7 @@ public function setPostContent (string $newPostContent) : void {
  *
  * @return \DateTime value of post date
  **/
-public function getPostDate() ; \DateTime {
+public function getPostDate() : \DateTime {
     return($this->postDate);
 }
 
@@ -179,11 +177,11 @@ public function setPostDate($newPostDate = null) : void {
         return;
     }
 
-    // store the like date using the ValidateDate trait
+    // store the post date using the ValidateDate trait
     try {
         $newPostDate = self:: validateDateTime($newPostDate);
     } catch (\InvalidArgumentException | \RangeException $exception) {
-        $exceptionTpe = get_class($exception);
+        $exceptionType = get_class($exception);
         throw(new $exceptionType($exception->getMessage(), 0, $exception));
     }
     $this->postDate = $newPostDate;
@@ -217,7 +215,7 @@ public function insert(\PDO $pdo) : void {
 **/
 public function update(\PDO $pdo) : void {
 
-    // crete query templae
+    // crete query template
     $query = "UPDATE post SET postProfileId = :postProfileId, postContent = :postContent, postDate = :postDate WHERE postId = :postId";
     $statement = $pdo->prepare($query);
 
@@ -275,11 +273,63 @@ public static function getPostByPostId(\PDO $pdo, string $postId) : ?Post {
  * @return \SplFixedArray SplFixedArray of posts found
  * @throws \PDOException wen variables are not the correct date type
 **/
-public static function getPostByPostProfileId(\PDO $pdo, string $postProfileId) : \SplFixedArray {
+public static function getPostByPostProfileId(\PDO $pdo, string $postProfileId) : \SplFixedArray{
 
     try {
         $postProfileId = self::validateUuid($postProfileId);
-    } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-        throw(new \PDOException())
+    } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception){
+        throw(new \PDOException($exception->getMessage(), 0, $exception));
     }
+
+    // create query template
+    $query = 'SELECT postId, postProfileId, postContent, postDate FROM post WHERE postProfileId = :postProfileId';
+    $statement = $pdo->prepare($query);
+    // bind the post profile id to the place holder in the template
+    $parameters = ['postProfileId' => $postProfileId->getBytes()];
+    $statement ->execute($parameters);
+    // build an array of posts
+    $post = new \SplFixedArray($statement->rowCount());
+    $statement->setFetchMode(\PDO::FETCH_ASSOC);
+    while (($row = $statement->fetch()) !==false) {
+        try{
+            $post = new Post($row['postId'], $row ['postProfileId'], $row['postContent'], $row['postDate']);
+            $posts[$posts->key()] = $post;
+            $posts->next();
+        } catch (\Exception $exception) {
+            // if the row couldn't be converted, rethrow it
+            throw (new \PDOException($exception->getMessage(), 0, $exception));
+        }
+    }
+    return($post);
+}
+/**
+ * gets the Post by content
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $postContent post content to search for
+ * @return \SplFixedArray SplFided array of Posts found
+ * @throws \PDOException when mySQL related error occor
+ * @throws \TypeError when varriables are not the correct data type
+ **/
+public  static function getPostByPostContent(\PDO $pdo, string $postContent) : \SplFixedArray {
+    // sanitize the description before searching
+    $postContent = trim($postContent);
+    $postContent = filter_var($postContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+    if(empty($postContent)=== true){
+        throw(new \PDOException(('post content is invalid'));
+    }
+
+    // escape any mySQL wild cards
+    $postContent = str_replace('_','\\_', str_replace('%', '\\%, $postContent'));
+
+
+// create query template
+$query = 'SELECT postId, postProfileId, postContent, postDate FROM post WHERE postContent like :postContent';
+$statement = $pdo->prepare($queary);
+
+// bind the post content to the place holder in the template
+    $postContent = '%postContent%';
+    $parameters = ['postContnet' => $postContent];
+    $statement-execute($parameters):
+
 }
