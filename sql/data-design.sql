@@ -56,6 +56,13 @@ INSERT INTO post (postId, postProfileId, postTitle, postContent, postDate)
         -- genereated UUID for post id converted to binary
         UNHEX(REPLACE('db910b19-11c8-4087-b0c1-d33b92ca74b3','-', '')),
       -- post profile id converted from binary
+        UNHEX(REPLACE('dc12ace9-3796-4902-931c-722e4f19bfd2')),
+      -- post title
+        'Post',
+      -- post content
+        'Dont Worry Be Happy',
+      -- post date
+
 
 
 )
