@@ -330,6 +330,6 @@ $statement = $pdo->prepare($queary);
 // bind the post content to the place holder in the template
     $postContent = '%postContent%';
     $parameters = ['postContnet' => $postContent];
-    $statement-execute($parameters):
+    $statement-execute($parameters);
 
 }
