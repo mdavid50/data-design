@@ -32,10 +32,12 @@ CREATE TABLE comments (
   commentsTitle VARCHAR (128) NOT NULL,
   commentsContent VARCHAR (3000) NOT NULL,
   commentsDate DATETIME (6) NOT NULL,
+  commentsCommentsId BINARY(16),
   INDEX(commentsPostId),
   INDEX (commentsProfileId),
   FOREIGN KEY (commentsPostId) REFERENCES post(postId),
   FOREIGN KEY (commentsProfileId) REFERENCES profile(profileId),
+  FOREIGN KEY (commentsCommentsId) REFERENCES comments(commentsId),
   PRIMARY KEY (commentsId)
 );
 
