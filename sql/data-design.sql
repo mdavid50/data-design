@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS profile;
 CREATE TABLE profile (
   profileId BINARY(16) NOT NULL,
   profileHandle VARCHAR (32) NOT NULL,
+  profileActivationToken VARCHAR(32) NOT NULL,
   profileEmail VARCHAR (128) NOT NULL,
   profilePhone VARCHAR (32),
   profileHash CHAR (128) NOT NULL,
