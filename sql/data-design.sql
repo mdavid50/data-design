@@ -50,3 +50,12 @@ VALUES(
  'mcdavid3636@gmail.com',
   '50599864252','894e65fe9b536b64d7a1940e46ec9cb923fab7f1d63be350b43106851235cb23e798e19a85fee1ecd84e988dbbbf1c59881b003d94f9a23dcfd132fca5ef27bd', 'd79d674bb81c24fff3a8af16cb4c6c2b28eec296d4c05745d08e9178e3144f5d2478564'
 );
+
+INSERT INTO post (postId, postProfileId, postTitle, postContent, postDate)
+    VALUES(
+        -- genereated UUID for post id converted to binary
+        UNHEX(REPLACE('db910b19-11c8-4087-b0c1-d33b92ca74b3','-', '')),
+      -- post profile id converted from binary
+
+
+)
