@@ -307,16 +307,16 @@ public static function getPostByPostProfileId(\PDO $pdo, string $postProfileId) 
  *
  * @param \PDO $pdo PDO connection object
  * @param string $postContent post content to search for
- * @return \SplFixedArray SplFided array of Posts found
+ * @return \SplFixedArray SplFixed array of Posts found
  * @throws \PDOException when mySQL related error occor
- * @throws \TypeError when varriables are not the correct data type
+ * @throws \TypeError when variables are not the correct data type
  **/
 public  static function getPostByPostContent(\PDO $pdo, string $postContent) : \SplFixedArray {
     // sanitize the description before searching
     $postContent = trim($postContent);
     $postContent = filter_var($postContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
     if(empty($postContent)=== true){
-        throw(new \PDOException(('post content is invalid'));
+        throw(new \PDOException('post content is invalid'));
     }
 
     // escape any mySQL wild cards
@@ -325,11 +325,71 @@ public  static function getPostByPostContent(\PDO $pdo, string $postContent) : \
 
 // create query template
 $query = 'SELECT postId, postProfileId, postContent, postDate FROM post WHERE postContent like :postContent';
-$statement = $pdo->prepare($queary);
+$statement = $pdo->prepare($query);
 
 // bind the post content to the place holder in the template
     $postContent = '%postContent%';
     $parameters = ['postContnet' => $postContent];
     $statement-execute($parameters);
 
+    // build an array of posts
+    $post = new \SplFixedArray($statement->rowCount());
+    $statement->setFetchMode(\PDO ::FETCH_ASSOC);
+    while (($row = $statement->fetch()) !==false) {
+        try {
+            $post = new Post($row['postId'], $row['postProfileId'], $row['postContent'], $row['postDate']);
+            $post->next();
+        } catch (\Exception $exception){
+            // if the row couldn't be converted, rethrow it
+            throw (new \PDOException($exception->getMessage(), 0, $exception));
+        }
+    }
+    return($post);
+}
+
+/**
+ * gets all Posts
+ *
+ * @param \PDO $pdo PDO connection object
+ * @return \SplFixedArray SplFixedArray of Posts found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
+public static function getAllPosts(\PDO $pdo) : \SPLFixedArray {
+    // create query template
+    $query = 'SELECT postId, postPorfileId, postContent, postDate FROM post';
+    $statement = $pdo->prepare($query);
+    $statement->execute();
+
+    // build an array of posts
+    $posts = new \SplFixedArray($statement->rowCount());
+    $statement->setFetchMode(\PDO::FETCH_ASSOC);
+    while(($row = $statement->fetch()) !== false) {
+        try {
+            $post = new Post($row['postId'], $row['postProfileId'], $row['postContent'], $row['postDate']);
+            $post[$post->key()] = $post;
+            $post->next();
+        } catch (\Exception $exception) {
+            // if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+    }
+    return ($posts);
+}
+
+/**
+ * formats the state variables for JSON serialization
+ *
+ * @return array resulting state variables to serialize
+ **/
+public function jsonSerialize(){
+    $fields = get_object_vars($this);
+
+    $fields['postId'] = $this->postId->toString();
+    $fields['postProfileId'] = $this->postProfileId->toString();
+
+    // format to date so that the front end can consume it
+    $fields['postDate'] = round(floatval($this->postDate->format('U.u')) *1000);
+    return($fields);
+}
 }
