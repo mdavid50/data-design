@@ -121,11 +121,41 @@ public function setPostProfileId($newPostProfileId) : void {
     throw(new $exceptionType($exception->getMessage(), 0, $exception));
 }
 
-// convert and store the profile id
+// convert and store the post profile id
 $this->postProfileId = $uuid;
 }
 
-/**
+    /**
+     * accessor method for post title
+     *
+     * @return string value of post title
+     **/
+    public function getPostTitle() :string {
+        return($this->postTitle);
+    }
+
+    /**
+     * mutator method for post title
+     *
+     * @param string $newPostContent new value of post title
+     * @throws \InvalidArgumentException if $newPostTitle is not a string or insecure
+     * @throws \RangeException if @newPostTitle is > 140 characters
+     * @throws \TypeError if $newPostTitle is not a string
+     **/
+    public function setPostTitle (string $newPostTitle) : void {
+        // verify the post title is secure
+        $newPostTitle = trim($newPostTitle);
+        $newPostTitle = filter_var($newPostTitle, FILTER_SANITIZE_STRING,FILTER_FLAG_NO_ENCODE_QUOTES);
+        IF(strlen($newPostTitle) === 3000) {
+            throw(new \RangeException("posts content too large"));
+        }
+
+        // store the post content
+        $this->postTitle = $newPostTitle;
+    }
+
+
+    /**
  * accessor method for post content
  *
  * @return string value of post content
@@ -197,7 +227,7 @@ public function setPostDate($newPostDate = null) : void {
 public function insert(\PDO $pdo) : void {
 
     // create query template
-    $query = "INSERT INTO post(postId,postProfielId, postContent, postDate) VALUES(:postId, :postProfileId, :postContent, :postDate)";
+    $query = "INSERT INTO post(postId,postProfielId, postTitle, postContent, postDate) VALUES(:postId, :postProfileId, :postTitle, :postContent, :postDate)";
     $statement = $pdo->prepare($query);
 
     // bind the member variables to the place holder in the template
@@ -216,12 +246,12 @@ public function insert(\PDO $pdo) : void {
 public function update(\PDO $pdo) : void {
 
     // crete query template
-    $query = "UPDATE post SET postProfileId = :postProfileId, postContent = :postContent, postDate = :postDate WHERE postId = :postId";
+    $query = "UPDATE post SET postId = :postId, postProfileId = :postProfileId, postTitle = :postTitle, postContent = :postContent, postDate = :postDate WHERE postId = :postId";
     $statement = $pdo->prepare($query);
 
 
     $formattedDate = $this->postDate->format("Y-m-d H:i:s.u");
-    $parameters = ["postId" => $this->postId->getBytes(),"postProfileId" => $this->postProfileId->getBytes(), "postContent" => $this->postContent, "this postDate" => $formattedDate];
+    $parameters = ["postId" => $this->postId->getBytes(),"postProfileId" => $this->postProfileId->getBytes(), "postTitle" => $this->postTitle, "postContent" => $this->postContent, "this postDate" => $formattedDate];
     $statement-> execute($parameters);
 }
 
@@ -243,7 +273,7 @@ public static function getPostByPostId(\PDO $pdo, string $postId) : ?Post {
     }
 
     // create query template
-    $query = "SELECT postId, postsProfileId, postContent, postDate FROM post WHERE postId = :postId";
+    $query = "SELECT postId, postsProfileId, postTitle, postContent, postDate FROM post WHERE postId = :postId";
     $statement = $pdo->prepare($query);
 
     // bind the post id to the place holder in the template
@@ -256,7 +286,7 @@ public static function getPostByPostId(\PDO $pdo, string $postId) : ?Post {
         $statement->setFetchMode(\PDO::FETCH_ASSOC);
         $row = $statement->fetch();
         if($row !== false) {
-            $post=new Post($row["postId"], $row["postProfileId"], $row{"postContent"}, $row["postDate"]);
+            $post=new post($row["postId"], $row["postProfileId"], $row("postTitle"), $row{"postContent"}, $row["postDate"]);
         }
     } catch(\Exception $exception) {
         // if the row couldn't be converted, rethrow it
@@ -282,7 +312,7 @@ public static function getPostByPostProfileId(\PDO $pdo, string $postProfileId) 
     }
 
     // create query template
-    $query = 'SELECT postId, postProfileId, postContent, postDate FROM post WHERE postProfileId = :postProfileId';
+    $query = 'SELECT postId, postProfileId, postTitle, postContent, postDate FROM post WHERE postProfileId = :postProfileId';
     $statement = $pdo->prepare($query);
     // bind the post profile id to the place holder in the template
     $parameters = ['postProfileId' => $postProfileId->getBytes()];
@@ -292,7 +322,7 @@ public static function getPostByPostProfileId(\PDO $pdo, string $postProfileId) 
     $statement->setFetchMode(\PDO::FETCH_ASSOC);
     while (($row = $statement->fetch()) !==false) {
         try{
-            $post = new Post($row['postId'], $row ['postProfileId'], $row['postContent'], $row['postDate']);
+            $post = new Post($row['postId'], $row ['postProfileId'], row['postTitle'], $row['postContent'], $row['postDate']);
             $posts[$posts->key()] = $post;
             $posts->next();
         } catch (\Exception $exception) {
@@ -324,7 +354,7 @@ public  static function getPostByPostContent(\PDO $pdo, string $postContent) : \
 
 
 // create query template
-$query = 'SELECT postId, postProfileId, postContent, postDate FROM post WHERE postContent like :postContent';
+$query = 'SELECT postId, postProfileId, postTitle, postContent, postDate FROM post WHERE postContent like :postContent';
 $statement = $pdo->prepare($query);
 
 // bind the post content to the place holder in the template
@@ -337,7 +367,7 @@ $statement = $pdo->prepare($query);
     $statement->setFetchMode(\PDO ::FETCH_ASSOC);
     while (($row = $statement->fetch()) !==false) {
         try {
-            $post = new Post($row['postId'], $row['postProfileId'], $row['postContent'], $row['postDate']);
+            $post = new Post($row['postId'], $row['postProfileId'], $row['postTitle'], $row['postContent'], $row['postDate']);
             $post->next();
         } catch (\Exception $exception){
             // if the row couldn't be converted, rethrow it
@@ -357,7 +387,7 @@ $statement = $pdo->prepare($query);
  **/
 public static function getAllPosts(\PDO $pdo) : \SPLFixedArray {
     // create query template
-    $query = 'SELECT postId, postPorfileId, postContent, postDate FROM post';
+    $query = 'SELECT postId, postPorfileId, postTitle, postContent, postDate FROM post';
     $statement = $pdo->prepare($query);
     $statement->execute();
 
@@ -366,7 +396,7 @@ public static function getAllPosts(\PDO $pdo) : \SPLFixedArray {
     $statement->setFetchMode(\PDO::FETCH_ASSOC);
     while(($row = $statement->fetch()) !== false) {
         try {
-            $post = new Post($row['postId'], $row['postProfileId'], $row['postContent'], $row['postDate']);
+            $post = new Post($row['postId'], $row['postProfileId'], $row['postTitle'], $row['postContent'], $row['postDate']);
             $post[$post->key()] = $post;
             $post->next();
         } catch (\Exception $exception) {
