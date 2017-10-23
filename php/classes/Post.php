@@ -221,7 +221,7 @@ public function setPostDate($newPostDate = null) : void {
  * insert this Post into mySQL
  *
  * @param \PDO $pdo PDO connection object
- * @throws \ PDOException when mySQL related error occors
+ * @throws \ PDOException when mySQL related error occur
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
 public function insert(\PDO $pdo) : void {
@@ -243,17 +243,27 @@ public function insert(\PDO $pdo) : void {
  * @throws \PDOException when mySQL related error occur
  * @throws \TypeError if $pdo is not a PDO connection object
 **/
-public function update(\PDO $pdo) : void {
+public function delete(\PDO $pdo) : void {
 
-    // crete query template
-    $query = "UPDATE post SET postId = :postId, postProfileId = :postProfileId, postTitle = :postTitle, postContent = :postContent, postDate = :postDate WHERE postId = :postId";
+    // create query template
+    $query = 'DELETE FROM post WHERE  postId = :postId';
     $statement = $pdo->prepare($query);
 
+    // bind the member variables to the place hl.ders in the template
 
-    $formattedDate = $this->postDate->format("Y-m-d H:i:s.u");
-    $parameters = ["postId" => $this->postId->getBytes(),"postProfileId" => $this->postProfileId->getBytes(), "postTitle" => $this->postTitle, "postContent" => $this->postContent, "this postDate" => $formattedDate];
+    $parameters = ['postid' =>$this->postId->getBytes()];
     $statement-> execute($parameters);
 }
+
+    /**
+     * updates this post into mySQL
+     *
+     * @param \PDO $pdo PDO connection object
+     * @throws \PDOException when mySQL related errors occur
+     * @throws\TypeError if $pdo is not a PDO connection object
+     **/
+    public function update(\PDO $pdo) : void {}
+
 
 /**
  * get the Post by postId
@@ -338,7 +348,7 @@ public static function getPostByPostProfileId(\PDO $pdo, string $postProfileId) 
  * @param \PDO $pdo PDO connection object
  * @param string $postContent post content to search for
  * @return \SplFixedArray SplFixed array of Posts found
- * @throws \PDOException when mySQL related error occor
+ * @throws \PDOException when mySQL related error occur
  * @throws \TypeError when variables are not the correct data type
  **/
 public  static function getPostByPostContent(\PDO $pdo, string $postContent) : \SplFixedArray {
