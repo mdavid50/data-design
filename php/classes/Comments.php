@@ -351,7 +351,7 @@ commentsContent, commentsDate FROM comments WHERE commentsId = :commentsId";
             $row = $statement->fetch();
             if($row !== false) {
                 $comments= new comments($row["commentsId"], $row["commentsProfileId"], $row["commentsPostId"],
-                $row["commentsCommentsId"], $row["postTitle"], $row["postContent"], $row["postDate"]);
+                $row["commentsCommentsId"], $row["commentsTitle"], $row["commentsContent"], $row["commentsDate"]);
             }
         } catch(\Exception $exception) {
             // if the row couldn't be converted, rethrow it
@@ -360,7 +360,168 @@ commentsContent, commentsDate FROM comments WHERE commentsId = :commentsId";
         return($comments);
     }
 
-	public function jsonSerialize() {
+    /**
+     * get the comments by profile id
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param string $commentsProfileId profile id to search by
+     * @return \SplFixedArray SplFixedArray of posts found
+     * @throws \PDOException wen variables are not the correct date type
+     **/
+    public static function getCommentsByCommentsProfileId(\PDO $pdo, string $commentsProfileId) : \SplFixedArray{
+
+        try {
+            $commentsProfileId = self::validateUuid($commentsProfileId);
+        } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception){
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+// create query template
+        $query = "SELECT commentsId, commentsProfileId, commentsPostId, commentsCommentsId, commentsTitle, 
+commentsContent, commentsDate FROM comments WHERE commentsProfileId = :commentsProfileId";
+        $statement = $pdo->prepare($query);
+
+        // bind the comments profile id to the place holder in the template
+        $parameters = ["commentsProfileId" => $commentsProfileId->getBytes()];
+        $statement->execute($parameters);
+
+        // grab the comments from mySQL
+        try {
+            $comments = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+            if($row !== false) {
+                $comments= new comments($row["commentsId"], $row["commentsProfileId"], $row["commentsPostId"],
+                    $row["commentsCommentsId"], $row["commentsTitle"], $row["commentsContent"], $row["commentsDate"]);
+            }
+        } catch(\Exception $exception) {
+            // if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return($comments);
+    }
+
+    /**
+     * get the comments by post id
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param string $commentsPostId post id to search by
+     * @return \SplFixedArray SplFixedArray of posts found
+     * @throws \PDOException wen variables are not the correct date type
+     **/
+    public static function getCommentsByCommentsPostId(\PDO $pdo, string $commentsPostId) : \SplFixedArray{
+
+        try {
+            $commentsPostId = self::validateUuid($commentsPostId);
+        } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception){
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+// create query template
+        $query = "SELECT commentsId, commentsProfileId, commentsPostId, commentsCommentsId, commentsTitle, 
+commentsContent, commentsDate FROM comments WHERE commentsProfileId = :commentsProfileId";
+        $statement = $pdo->prepare($query);
+
+        // bind the comments post id to the place holder in the template
+        $parameters = ["commentsPostId" => $commentsPostId->getBytes()];
+        $statement->execute($parameters);
+
+        // grab the comments from mySQL
+        try {
+            $comments = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+            if($row !== false) {
+                $comments= new comments($row["commentsId"], $row["commentsProfileId"], $row["commentsPostId"],
+                    $row["commentsCommentsId"], $row["commentsTitle"], $row["commentsContent"], $row["commentsDate"]);
+            }
+        } catch(\Exception $exception) {
+            // if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return($comments);
+    }
+
+    /**
+     * get the comments by comments comments id
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param string $commentsCommentsId profile id to search by
+     * @return \SplFixedArray SplFixedArray of posts found
+     * @throws \PDOException wen variables are not the correct date type
+     **/
+    public static function getCommentsByCommentsCommentsId(\PDO $pdo, string $commentsCommentsId) : \SplFixedArray{
+
+        try {
+            $commentsCommentsId = self::validateUuid($commentsCommentsId);
+        } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception){
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+// create query template
+        $query = "SELECT commentsId, commentsProfileId, commentsPostId, commentsCommentsId, commentsTitle, 
+commentsContent, commentsDate FROM comments WHERE commentsCommentsId = :commentsCommentsId";
+        $statement = $pdo->prepare($query);
+
+        // bind the comments comments id to the place holder in the template
+        $parameters = ["commentsCommentsId" => $commentsCommentsId->getBytes()];
+        $statement->execute($parameters);
+
+        // grab the comments from mySQL
+        try {
+            $comments = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+            if($row !== false) {
+                $comments= new comments($row["commentsId"], $row["commentsProfileId"], $row["commentsPostId"],
+                    $row["commentsCommentsId"], $row["commentsTitle"], $row["commentsContent"], $row["commentsDate"]);
+            }
+        } catch(\Exception $exception) {
+            // if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return($comments);
+    }
+
+    /**
+     * get the comments by comments title
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param string $commentsTitle title to search by
+     * @return \SplFixedArray SplFixedArray of posts found
+     * @throws \PDOException wen variables are not the correct date type
+     **/
+    public static function getCommentsByCommentsTitle(\PDO $pdo, string $commentsTitle) : \SplFixedArray
+    {
+
+        try {
+            $commentsTitle = self::validateUuid($commentsTitle);
+        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+// create query template
+        $query = "SELECT commentsId, commentsProfileId, commentsPostId, commentsCommentsId, commentsTitle, 
+commentsContent, commentsDate FROM comments WHERE commentsTitle = :commentsTitle";
+        $statement = $pdo->prepare($query);
+
+        // bind the comments title to the place holder in the template
+        $parameters = ["commentsTitle" => $commentsTitle->getBytes()];
+        $statement->execute($parameters);
+
+        // grab the comments from mySQL
+        try {
+            $comments = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+            if ($row !== false) {
+                $comments = new comments($row["commentsId"], $row["commentsProfileId"], $row["commentsPostId"],
+                    $row["commentsCommentsId"], $row["commentsTitle"], $row["commentsContent"], $row["commentsDate"]);
+            }
+        } catch (\Exception $exception) {
+            // if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return ($comments);
+    }
+
+        public function jsonSerialize() {
         $fields = get_object_vars($this);
         $fields["commentsId"] = $this->commentsId;
         $fields["commentsProfileId"] = $this->commentsProfileId;
