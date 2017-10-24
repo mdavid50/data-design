@@ -30,7 +30,8 @@ class Comments implements \JsonSerializable {
     /**
      * id for post id; this is a foreign key
      * @var Uuid $commentsPostID
-     */
+     **/
+    private $commentsPostId;
     /**
      * id for the comments Comments; this is a foreign key
      * @var Uuid $commentsCommentsId
@@ -58,6 +59,7 @@ class Comments implements \JsonSerializable {
      * @param string|Uuid $newCommentsId id of this Comments or null if a new Post
      * @param string|Uuid $newCommentsProfileId id of the Profile that sent this comments
      * @param string|Uuid $newCommentsPostId id of the post this comments were made on
+     * @param string|Uuid $newCommentsCommentsId id of the comments on comments
      * @param string $newCommentsTitle is title of comments made
      * @param string $newCommentsContent string containing actual comments data
      * @param\DateTime| string| null $newCommentsDate date and time Comments was sent or null if set to current date
@@ -274,6 +276,90 @@ class Comments implements \JsonSerializable {
         }
         $this->commentsDate = $newCommentsDate;
     }
+
+    /**
+     * insert this Comments into mySQL
+     *
+     * @param \PDO $pdo PDO connection object
+     * @throws \ PDOException when mySQL related error occur
+     * @throws \TypeError if $pdo is not a PDO connection object
+     **/
+    public function insert(\PDO $pdo) : void {
+// create query template
+        $query = "INSERT INTO comments(commentsId,commentsProfileId, commentsPostId, commentsCommentsId, commentsTitle,
+ commentsContent, commentsDate) VALUES(:commentsId, :commentsProfileId, :commentsPostId, :commentsCommentsId,
+:commentsTitle, :commentsContent, :commentsDate)";
+        $statement = $pdo->prepare($query);
+
+// bind the member variables to the place holder in the template
+        $formattedDate = $this->commentsDate->format("Y-m-d H:i:s.u");
+        $parameters = ["commentsId" => $this->commentsId->getBytes(), "commentsProfileId" => $this->commentsProfileId->getBytes(),
+        "commentsPostId" => $this->commentsPostId->getBytes(), "commentsCommentsId" => $this->commentsCommentsId->getBytes(),
+         "commentsTitle" => $this->commentsTitle,   "commentsContent"=> $this->commentsContent, "commentsDate" => $formattedDate];
+        $statement->execute($parameters);
+    }
+
+    /**
+     * deletes this Comments from mySQL
+     *
+     * @param \PDO $pdo PDO connection object
+     * @throws \PDOException when mySQL related error occur
+     * @throws \TypeError if $pdo is not a PDO connection object
+     **/
+    public function delete(\PDO $pdo) : void {
+
+        // create query template
+        $query = 'DELETE FROM comments WHERE  commentsId = :commentsId';
+        $statement = $pdo->prepare($query);
+
+        // bind the member variables to the place holders in the template
+
+        $parameters = ['commentsId' =>$this->commentsId->getBytes()];
+        $statement-> execute($parameters);
+    }
+
+    /**
+     * get the Comments by commentsId
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param string $commentsId comments id to search for
+     * @return Comments|null Comments found or null if not found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when a variable are not the correct data type
+     **/
+    public static function getCommentsByCommentsId(\PDO $pdo, string $commentsId) : ?Comments {
+        // sanitize the comments Id before searching
+        try{
+            $commentsId = self::validateUuid($commentsId);
+        } catch (\InvalidArgumentException| \RangeException | \Exception | \TypeError $exception) {
+            throw(new \PDOException($exception->getMessage(),  0, $exception));
+        }
+
+        // create query template
+        $query = "SELECT commentsId, commentsProfileId, commentsPostId, commentsCommentsId, commentsTitle, 
+commentsContent, commentsDate FROM comments WHERE commentsId = :commentsId";
+        $statement = $pdo->prepare($query);
+
+        // bind the comments id to the place holder in the template
+        $parameters = ["commentsId" => $commentsId->getBytes()];
+        $statement->execute($parameters);
+
+        // grab the comments from mySQL
+        try {
+            $comments = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+            if($row !== false) {
+                $comments= new comments($row["commentsId"], $row["commentsProfileId"], $row["commentsPostId"],
+                $row["commentsCommentsId"], $row["postTitle"], $row["postContent"], $row["postDate"]);
+            }
+        } catch(\Exception $exception) {
+            // if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return($comments);
+    }
+
 	public function jsonSerialize() {
         $fields = get_object_vars($this);
         $fields["commentsId"] = $this->commentsId;

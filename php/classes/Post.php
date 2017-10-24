@@ -224,19 +224,19 @@ public function setPostDate($newPostDate = null) : void {
  * @throws \ PDOException when mySQL related error occur
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
-public function insert(\PDO $pdo) : void {
+    public function insert(\PDO $pdo) : void {
+// create query template
+$query = "INSERT INTO post(postId,postProfielId, postTitle, postContent, postDate) VALUES(:postId, :postProfileId,
+:postTitle, :postContent, :postDate)";
+$statement = $pdo->prepare($query);
 
-    // create query template
-    $query = "INSERT INTO post(postId,postProfielId, postTitle, postContent, postDate) VALUES(:postId, :postProfileId,
-              :postTitle, :postContent, :postDate)";
-    $statement = $pdo->prepare($query);
-
-    // bind the member variables to the place holder in the template
-    $formattedDate = $this->postDate->format("Y-m-d H:i:s.u");
-    $parameters = ["postId" => $this->postId->getBytes(), "postProfileId" => $this->postProfileId->getBytes(),
-        "postContent"=> $this->postContent, "postDate" => $formattedDate];
-    $statement->execute($parameters);
+// bind the member variables to the place holder in the template
+$formattedDate = $this->postDate->format("Y-m-d H:i:s.u");
+$parameters = ["postId" => $this->postId->getBytes(), "postProfileId" => $this->postProfileId->getBytes(),
+"postContent"=> $this->postContent, "postDate" => $formattedDate];
+$statement->execute($parameters);
 }
+
 
 /**
  * deletes this Post from mySQL
@@ -264,7 +264,13 @@ public function delete(\PDO $pdo) : void {
      * @throws \PDOException when mySQL related errors occur
      * @throws\TypeError if $pdo is not a PDO connection object
      **/
-    public function update(\PDO $pdo) : void {}
+    public function update(\PDO $pdo) : void {
+
+        //create query template
+        $query = "UPDATE post SET postProfileId = :postProfileId, postTitle = :postTitle, postContent = :postContent, 
+postDate = :postDate WHERE postId = :postId";
+        $statement = $pdo->prepare($query);
+    }
 
 
 /**
