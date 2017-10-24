@@ -227,12 +227,14 @@ public function setPostDate($newPostDate = null) : void {
 public function insert(\PDO $pdo) : void {
 
     // create query template
-    $query = "INSERT INTO post(postId,postProfielId, postTitle, postContent, postDate) VALUES(:postId, :postProfileId, :postTitle, :postContent, :postDate)";
+    $query = "INSERT INTO post(postId,postProfielId, postTitle, postContent, postDate) VALUES(:postId, :postProfileId,
+              :postTitle, :postContent, :postDate)";
     $statement = $pdo->prepare($query);
 
     // bind the member variables to the place holder in the template
     $formattedDate = $this->postDate->format("Y-m-d H:i:s.u");
-    $parameters = ["postId" => $this->postId->getBytes(), "postProfileId" => $this->postProfileId->getBytes(), "postContent"=> $this->postContent, "postDate" => $formattedDate];
+    $parameters = ["postId" => $this->postId->getBytes(), "postProfileId" => $this->postProfileId->getBytes(),
+        "postContent"=> $this->postContent, "postDate" => $formattedDate];
     $statement->execute($parameters);
 }
 
@@ -369,7 +371,7 @@ $statement = $pdo->prepare($query);
 
 // bind the post content to the place holder in the template
     $postContent = '%postContent%';
-    $parameters = ['postContnet' => $postContent];
+    $parameters = ['postContent' => $postContent];
     $statement-execute($parameters);
 
     // build an array of posts
