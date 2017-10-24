@@ -481,45 +481,98 @@ commentsContent, commentsDate FROM comments WHERE commentsCommentsId = :comments
     }
 
     /**
-     * get the comments by comments title
+     * gets the Comments by title
      *
      * @param \PDO $pdo PDO connection object
-     * @param string $commentsTitle title to search by
-     * @return \SplFixedArray SplFixedArray of posts found
-     * @throws \PDOException wen variables are not the correct date type
+     * @param string $commentsTitle comments title to search for
+     * @return \SplFixedArray SplFixed array of Comments found
+     * @throws \PDOException when mySQL related error occur
+     * @throws \TypeError when variables are not the correct data type
      **/
-    public static function getCommentsByCommentsTitle(\PDO $pdo, string $commentsTitle) : \SplFixedArray
-    {
-
-        try {
-            $commentsTitle = self::validateUuid($commentsTitle);
-        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
+    public  static function getPostByPostContent(\PDO $pdo, string $commentsTitle) : \SplFixedArray {
+        // sanitize the description before searching
+        $commentsTitle = trim($commentsTitle);
+        $commentsTitle = filter_var($commentsTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if(empty($commentTitle)=== true){
+            throw(new \PDOException('comments content is invalid'));
         }
+
+        // escape any mySQL wild cards
+        $commentTitle = str_replace('_','\\_', str_replace('%', '\\%, $postContent'));
+
 // create query template
         $query = "SELECT commentsId, commentsProfileId, commentsPostId, commentsCommentsId, commentsTitle, 
 commentsContent, commentsDate FROM comments WHERE commentsTitle = :commentsTitle";
         $statement = $pdo->prepare($query);
 
         // bind the comments title to the place holder in the template
-        $parameters = ["commentsTitle" => $commentsTitle->getBytes()];
+        $parameters = ["commentsTitle" => $commentsTitle];
         $statement->execute($parameters);
 
-        // grab the comments from mySQL
-        try {
-            $comments = null;
-            $statement->setFetchMode(\PDO::FETCH_ASSOC);
-            $row = $statement->fetch();
-            if ($row !== false) {
-                $comments = new comments($row["commentsId"], $row["commentsProfileId"], $row["commentsPostId"],
-                    $row["commentsCommentsId"], $row["commentsTitle"], $row["commentsContent"], $row["commentsDate"]);
+
+        // build an array of comments
+        $comments = new \SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(\PDO ::FETCH_ASSOC);
+        while (($row = $statement->fetch()) !==false) {
+            try {
+                $comments = new Comments($row['commentsId'], $row['commentsProfileId'], $row['commentsPostId'], $row['commentsCommentsId'],
+                 $row['commentsTitle'], $row['commentsContent'], $row['commentsDate']);
+                $comments->next();
+            } catch (\Exception $exception){
+                // if the row couldn't be converted, rethrow it
+                throw (new \PDOException($exception->getMessage(), 0, $exception));
             }
-        } catch (\Exception $exception) {
-            // if the row couldn't be converted, rethrow it
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return($comments);
+    }
+
+    /**
+     * gets the Comments by content
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param string $commentsContent comments content to search for
+     * @return \SplFixedArray SplFixed array of Comments found
+     * @throws \PDOException when mySQL related error occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+    public  static function getCommentsByCommentsContent(\PDO $pdo, string $commentsContent) : \SplFixedArray
+    {
+        // sanitize the description before searching
+        $commentsContent = trim($commentsContent);
+        $commentsContent = filter_var($commentsContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if (empty($commentsContent) === true) {
+            throw(new \PDOException('comments content is invalid'));
+        }
+
+        // escape any mySQL wild cards
+        $commentsContent = str_replace('_', '\\_', str_replace('%', '\\%, $commentsContent'));
+
+        // create query template
+        $query = "SELECT commentsId, commentsProfileId, commentsPostId, commentsCommentsId, commentsTitle, 
+commentsContent, commentsDate FROM comments WHERE commentsContent = :commentsContent";
+        $statement = $pdo->prepare($query);
+
+        // bind the comments content to the place holder in the template
+        $parameters = ["commentsContent" => $commentsContent];
+        $statement->execute($parameters);
+
+
+        // build an array of comments
+        $comments = new \SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(\PDO ::FETCH_ASSOC);
+        while (($row = $statement->fetch()) !== false) {
+            try {
+                $comments = new Comments($row['commentsId'], $row['commentsProfileId'], $row['commentsPostId'], $row['commentsCommentsId'],
+                    $row['commentsTitle'], $row['commentsContent'], $row['commentsDate']);
+                $comments->next();
+            } catch (\Exception $exception) {
+                // if the row couldn't be converted, rethrow it
+                throw (new \PDOException($exception->getMessage(), 0, $exception));
+            }
         }
         return ($comments);
     }
+
 
         public function jsonSerialize() {
         $fields = get_object_vars($this);

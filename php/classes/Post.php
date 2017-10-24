@@ -425,6 +425,7 @@ public static function getAllPosts(\PDO $pdo) : \SPLFixedArray {
     return ($posts);
 }
 
+
 /**
  * formats the state variables for JSON serialization
  *
