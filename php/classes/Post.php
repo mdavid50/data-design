@@ -253,7 +253,7 @@ public function delete(\PDO $pdo) : void {
 
     // bind the member variables to the place hl.ders in the template
 
-    $parameters = ['postid' =>$this->postId->getBytes()];
+    $parameters = ['postId' =>$this->postId->getBytes()];
     $statement-> execute($parameters);
 }
 
