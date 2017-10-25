@@ -28,6 +28,11 @@ class Post implements \JsonSerializable {
      **/
     private $postProfileId;
     /**
+     * title for this Post; this is a foreign key
+     * @var string $postTitle
+     **/
+    private $postTitle;
+    /**
      * actual textual content of this post
      * @var string $postContent
      **/
@@ -43,6 +48,7 @@ class Post implements \JsonSerializable {
      *
      * @param string|Uuid $newPostId id of this Post or null if a new Post
      * @param string|Uuid $newPostProfileId id of the Profile that sent this tweet
+     * @param string $newPostTitle string title of post
      * @param string $newPostContent string containing actual post data
      * @param\DateTime| string| null $newPostDate date and time Post was sent or null if set to current date
      * and time
@@ -52,11 +58,12 @@ class Post implements \JsonSerializable {
      * @throws \Exception if some other exception occurs
      * @Documentation https;// php.net/manual/en/language.oops5.decon.php
      **/
-	public function __construct($newPostId, $newPostProfileId, string $newPostContent, $newPostDate = null)
+	public function __construct($newPostId, $newPostProfileId, string $newPostTitle, string $newPostContent, $newPostDate = null)
     {
         try {
             $this->setPostId($newPostId);
             $this->setPostProfileID($newPostProfileId);
+            $this->setPostTitle($newPostTitle);
             $this->setPostContent($newPostContent);
             $this->setPostDate($newPostDate);
         }
@@ -251,7 +258,7 @@ public function delete(\PDO $pdo) : void {
     $query = 'DELETE FROM post WHERE  postId = :postId';
     $statement = $pdo->prepare($query);
 
-    // bind the member variables to the place hl.ders in the template
+    // bind the member variables to the place holders in the template
 
     $parameters = ['postId' =>$this->postId->getBytes()];
     $statement-> execute($parameters);
@@ -340,7 +347,7 @@ public static function getPostByPostProfileId(\PDO $pdo, string $postProfileId) 
     $statement->setFetchMode(\PDO::FETCH_ASSOC);
     while (($row = $statement->fetch()) !==false) {
         try{
-            $post = new Post($row['postId'], $row ['postProfileId'], row['postTitle'], $row['postContent'], $row['postDate']);
+            $post = new Post($row['postId'], $row ['postProfileId'], $row['postTitle'], $row['postContent'], $row['postDate']);
             $posts[$posts->key()] = $post;
             $posts->next();
         } catch (\Exception $exception) {
