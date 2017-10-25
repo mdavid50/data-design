@@ -357,6 +357,52 @@ public static function getPostByPostProfileId(\PDO $pdo, string $postProfileId) 
     }
     return($post);
 }
+
+    /**
+     * gets the Post by title
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param string $postTitle post title to search for
+     * @return \SplFixedArray SplFixed array of Posts found
+     * @throws \PDOException when mySQL related error occur
+     * @throws \TypeError when variables are not the correct data type
+     **/
+    public  static function getPostByPostTitle(\PDO $pdo, string $postTitle) : \SplFixedArray {
+        // sanitize the description before searching
+        $postTitle = trim($postTitle);
+        $postTitle = filter_var($postTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+        if(empty($postTitle)=== true){
+            throw(new \PDOException('post title is invalid'));
+        }
+
+        // escape any mySQL wild cards
+        $postTitle = str_replace('_','\\_', str_replace('%', '\\%, $postTitle'));
+
+
+// create query template
+        $query = 'SELECT postId, postProfileId, postTitle, postContent, postDate FROM post WHERE postContent like :postContent';
+        $statement = $pdo->prepare($query);
+
+// bind the post content to the place holder in the template
+        $postTitle = '%postTitle%';
+        $parameters = ['postTitle' => $postTitle];
+        $statement-execute($parameters);
+
+        // build an array of posts
+        $post = new \SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(\PDO ::FETCH_ASSOC);
+        while (($row = $statement->fetch()) !==false) {
+            try {
+                $post = new Post($row['postId'], $row['postProfileId'], $row['postTitle'], $row['postContent'], $row['postDate']);
+                $post->next();
+            } catch (\Exception $exception){
+                // if the row couldn't be converted, rethrow it
+                throw (new \PDOException($exception->getMessage(), 0, $exception));
+            }
+        }
+        return($post);
+    }
+
 /**
  * gets the Post by content
  *
