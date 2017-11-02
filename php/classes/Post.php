@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * This is the Post entity for reddit
  *
- * This is a creating tables to store date of posts made from by Profiles.
+ * This is creating tables to store date of posts made by Profiles.
  *
  * @author Matt David <mcdav3636@gmail.com>
  * @version 3.0.0
@@ -477,6 +477,7 @@ public static function getAllPosts(\PDO $pdo) : \SPLFixedArray {
     }
     return ($posts);
 }
+
 
 
 /**
